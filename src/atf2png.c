@@ -131,7 +131,7 @@ export_texture_etc(const char *filename, struct atf_s *atf_data, uint8_t *textur
     fwrite(&eh, sizeof(uint16_t), 1, fp);
     fwrite(&ew, sizeof(uint16_t), 1, fp);
     fwrite(&eh, sizeof(uint16_t), 1, fp);
-    if (len != fwrite(texture, sizeof(uint8_t), len, fp))
+    if (len != fwrite(texture+12, sizeof(uint8_t), len, fp))
     {
         fprintf(stderr, "Error: unable write data into file\n");
         fclose(fp);
