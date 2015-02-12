@@ -77,7 +77,9 @@ parse_texture(uint8_t *texture, struct atf_s *atf_data,
         // ATFRAWCOMPRESSEDALPHA
         case 5:
             dxt5->len = T32((uint32_t)(*((uint32_t*)texture)));
+#ifdef DEBUG
             printf("dxt5len: 0x%08x, %u\n", dxt5->len, dxt5->len);
+#endif
             if (dxt5->len > 0)
             {
                 dxt5->head = head;
@@ -86,7 +88,9 @@ parse_texture(uint8_t *texture, struct atf_s *atf_data,
             offset = sizeof(uint32_t) + sizeof(uint8_t) * dxt5->len;
 
             pvrtc->len = T32((uint32_t)(*((uint32_t *)(texture + offset))));
+#ifdef DEBUG
             printf("pvrtclen: 0x%08x, %u\n", pvrtc->len, pvrtc->len);
+#endif
             if (pvrtc->len > 0)
             {
                 pvrtc->head = head;
@@ -97,8 +101,10 @@ parse_texture(uint8_t *texture, struct atf_s *atf_data,
             etc1->len = T32((uint32_t)(*((uint32_t *)(texture + offset))));
             etc1->len >>= 1;
             etc1alpha->len = etc1->len;
+#ifdef DEBUG
             printf("etc1len: 0x%08x, %u\n", etc1->len, etc1->len);
             printf("etc1alphalen: 0x%08x, %u\n", etc1alpha->len, etc1alpha->len);
+#endif
             if (etc1->len > 0)
             {
                 etc1->head = head;
@@ -194,13 +200,23 @@ main(int argc, char *argv[])
     dxt5.head = pvrtc.head = etc1.head = etc1alpha.head = NULL;
     parse_texture(texture, &atf_data, &dxt5, &pvrtc, &etc1, &etc1alpha);
     if (dxt5.head != NULL)
-        printf("dxt5: 0x%x\n", dxt5.head);
+    {
+#ifdef DEBUG
+        printf("dxt5: 0x%x\n", (unsigned int)dxt5.head);
+#endif
+    }
     if (pvrtc.head != NULL)
-        printf("pvrtc: 0x%x\n", pvrtc.head);
+    {
+#ifdef DEBUG
+        printf("pvrtc: 0x%x\n", (unsigned int)pvrtc.head);
+#endif
+    }
     if (etc1.head != NULL)
     {
-        printf("etc1: 0x%x\n", etc1.head);
-        printf("etc1alpha: 0x%x\n", etc1alpha.head);
+#ifdef DEBUG
+        printf("etc1: 0x%x\n", (unsigned int)etc1.head);
+        printf("etc1alpha: 0x%x\n", (unsigned int)etc1alpha.head);
+#endif
         if (export_texture_etc("output.pkm", &atf_data, etc1.head, etc1.len) == 1)
             goto failed;
         if (export_texture_etc("output_alpha.pkm", &atf_data, etc1alpha.head, etc1alpha.len) == 1)

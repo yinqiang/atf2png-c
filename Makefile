@@ -9,6 +9,9 @@ src/atf2png.c
 CFLAG=-O2 -Wall -g
 
 all :
+	$(CC) -o atf2png $(SRC) $(CFLAG) -DDEBUG
+
+release :
 	$(CC) -o atf2png $(SRC) $(CFLAG)
 
 clean :
