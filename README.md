@@ -10,3 +10,11 @@ But it just can export ETC1 pkm file now.
 $ make
 $ ./atf2png path_to.atf  # export output.pkm and output_alpha.pkm
 ```
+
+# mergetool
+Merge two png files into one.
+
+###Usage:
+```shell
+mergetool -i inputdir -o outputdir
+```
